@@ -1,39 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function useLocalStorage(key, initialValue) {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error);
-      return initialValue;
-    }
-  });
+function getSavedValue(key, initialValue) {
+  //get whatever we have stored at the "key" location and convert it to JSON
+  const savedValue = JSON.parse(localStorage.getItem(key));
+  //if we have something stored, return that saved value
+  if (savedValue) return savedValue;
 
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
-  const setValue = (value) => {
-    try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      // Save state
-      setStoredValue(valueToStore);
-      // Save to local storage
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error);
-    }
-  };
-
-  return [storedValue, setValue];
+  //useState can take a function as it's input
+  //we need to check if the initial value is a function and call it
+  if (initialValue instanceof Function) return initialValue();
+  //if no saved value and not a function, return initial value
+  return initialValue;
 }
 
-export default useLocalStorage;
+export default function useLocalStorage(key, initialValue) {
+  //using function because we don't want to always call json.parse and call localstorage
+  //we only do this once when our component loads to get the initial value
+  const [value, setValue] = useState(() => {
+    return getSavedValue(key, initialValue);
+  });
+
+  //updating and saving our values to localStorage
+  //run useEffect everytime we make an update to our value
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value]);
+
+  return [value, setValue];
+}

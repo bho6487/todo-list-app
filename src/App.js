@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { nanoid } from "nanoid";
-import "./Index.css";
+// import "./Index.css";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import useLocalStorage from "./hooks/useLocalStorage";
+import useUpdateLogger from "./hooks/useUpdateLogger";
 
 function App(props) {
   const LOCAL_STORAGE_PREFIX = "TODO_LIST_APP-";
   const TODOS_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}-todos`;
   const [tasks, setTasks] = useLocalStorage(TODOS_STORAGE_KEY, props.tasks);
   const [filter, setFilter] = useState("All");
+  // useUpdateLogger(tasks);
 
   function toggleTaskCompleted(id) {
     //iterate over the tasks array and check each task
