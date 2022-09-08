@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
-// import "./Index.css";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import useLocalStorage from "./hooks/useLocalStorage";
-import useUpdateLogger from "./hooks/useUpdateLogger";
+
+import Grid from "@mui/material/Grid";
+import { Typography } from "@mui/material";
+import List from "@mui/material/List";
 
 function App(props) {
   const LOCAL_STORAGE_PREFIX = "TODO_LIST_APP-";
   const TODOS_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}-todos`;
   const [tasks, setTasks] = useLocalStorage(TODOS_STORAGE_KEY, props.tasks);
   const [filter, setFilter] = useState("All");
-  // useUpdateLogger(tasks);
 
   function toggleTaskCompleted(id) {
     //iterate over the tasks array and check each task
@@ -112,19 +113,28 @@ function App(props) {
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
 
   return (
-    <div className="todoapp stack-large">
-      <h1>To Do List App!</h1>
-      <Form addTask={addTask} />
-      <div className="filters btn-group stack-exception">{filterList}</div>
-      <h2 id="list-heading">{headingText}</h2>
-      <ul
-        role="list"
-        className="todo-list stack-large stack-exception"
-        aria-labelledby="list-heading"
-      >
-        {taskList}
-      </ul>
-    </div>
+    <Grid
+      container
+      spacing={2}
+      direction="column"
+      display="flex"
+      justify="center"
+      alignItems="center"
+    >
+      <Grid item>
+        <Typography variant="h1">To Do List App!</Typography>
+      </Grid>
+      <Grid item>
+        <Form addTask={addTask} />
+      </Grid>
+      <Grid item>{filterList}</Grid>
+      <Grid item>
+        <Typography variant="h2">{headingText}</Typography>
+      </Grid>
+      <Grid item>
+        <List>{taskList}</List>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -1,15 +1,21 @@
+import { Button } from "@mui/material";
+import Box from "@mui/material/Box";
+
 const FilterButton = ({ name, isPressed, setFilter }) => {
   return (
-    <button
+    <Button
+      variant={isPressed ? "contained" : "outlined"}
+      // spacing={3}
       type="button"
-      className="btn toggle-btn"
       aria-pressed={isPressed}
       onClick={() => {
         setFilter(name);
       }}
     >
-      <span>{name}</span>
-    </button>
+      <Box component="span" sx={{ display: "inline" }}>
+        {name}
+      </Box>
+    </Button>
   );
 };
 

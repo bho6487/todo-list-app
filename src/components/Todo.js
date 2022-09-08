@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 
+import Input from "@mui/material/Input";
+import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Grid";
+
 const Todo = ({
   name,
   completed,
@@ -23,59 +29,57 @@ const Todo = ({
   }
 
   const editingTemplate = (
-    <form className="stack-small" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label className="todo-label" htmlFor={id}>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <Typography variant="h6" htmlFor={id}>
           New name for {name}
-        </label>
-        <input
-          id={id}
-          className="todo-text"
-          type="text"
-          onChange={handleChange}
-        />
+        </Typography>
+        <Input id={id} type="text" onChange={handleChange} />
       </div>
-      <div className="btn-group">
-        <button
+      <div>
+        <Button
           type="button"
-          className="btn todo-cancel"
+          variant="outlined"
           onClick={() => setEditing(false)}
         >
-          Cancel
-          <span className="visually-hidden">renaming {name}</span>
-        </button>
-        <button type="submit" className="btn btn__primary todo-edit">
-          Save
-          <span className="visually-hidden">new name for {name}</span>
-        </button>
+          {`Cancel renaming ${name}`}
+        </Button>
+        <Button
+          type="submit"
+          variant="outlined"
+        >{`Save renaming ${name}`}</Button>
       </div>
     </form>
   );
 
   const viewTemplate = (
-    <div className="stack-small">
-      <div className="c-cb">
-        <input
-          id={id}
-          type="checkbox"
-          defaultChecked={completed}
-          onChange={() => toggleTaskCompleted(id)}
-        />
-        <label className="todo-label" htmlFor={id}>
-          {name}
-        </label>
-      </div>
-      <div className="btn-group">
-        <button type="button" className="btn" onClick={() => setEditing(true)}>
-          Edit <span className="visually-hidden">{name}</span>
-        </button>
-        <button
+    <div>
+      <Grid container direction="row" alignItems="center">
+        <Grid item>
+          <Checkbox
+            id={id}
+            onChange={() => toggleTaskCompleted(id)}
+            htmlFor={id}
+            checked={completed}
+          />
+        </Grid>
+        <Grid item>
+          <Typography variant="h6">{name}</Typography>
+        </Grid>
+      </Grid>
+
+      <div>
+        <Button
+          variant="outlined"
           type="button"
-          className="btn btn__danger"
-          onClick={() => deleteTask(id)}
+          className="btn"
+          onClick={() => setEditing(true)}
         >
-          Delete <span className="visually-hidden">{name}</span>
-        </button>
+          {`Edit ${name}`}
+        </Button>
+        <Button variant="outlined" type="button" onClick={() => deleteTask(id)}>
+          {`Delete ${name}`}
+        </Button>
       </div>
     </div>
   );
