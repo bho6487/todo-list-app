@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Input from "@mui/material/Input";
 
 const Form = ({ addTask }) => {

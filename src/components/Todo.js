@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 import Input from "@mui/material/Input";
-import { Button } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Button, ListItem, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 
@@ -84,7 +83,11 @@ const Todo = ({
     </div>
   );
 
-  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+  return (
+    <ListItem className="todo">
+      {isEditing ? editingTemplate : viewTemplate}
+    </ListItem>
+  );
 };
 
 export default Todo;
